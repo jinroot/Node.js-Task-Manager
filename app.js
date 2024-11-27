@@ -25,7 +25,7 @@ const start = async() =>{
         connectionDB(URI, {
             dbName: 'TaskManagerProject'
         })
-        app.listen(URI, console.log(`fkillem at ${PORT}`));
+        app.listen(PORT, console.log(`fkillem at ${PORT}`));
     } catch (error) {
         console.log(error);
         process.exit(1);
