@@ -9,7 +9,7 @@ app.use(express.static('./public'))
 require('dotenv').config();
 const notFound = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/errorHandler');
-const PORT = process.env.SERVER_PORT;
+const PORT = process.env.SERVER_PORT || 3000;
 const URI = process.env.MONGO_URI;
 
 app.get('/ayaya', (req,res) =>{
