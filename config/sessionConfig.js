@@ -15,6 +15,7 @@ const sessionConfig = () => {
             maxAge: 1000 * 60 * 60 * 24 * 7,
             httpOnly: true,
             secure: config.NODE_ENV === 'production',
+            sameSite: 'Strict',
         },
     });
 };
