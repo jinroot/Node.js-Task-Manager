@@ -10,6 +10,10 @@ const TaskSchema = new mongoose.Schema({
     completed: {
         type: Boolean,
         default: false
+    },
+    sessionId: {
+        type: String,
+        required: [true, 'Session ID is required'],
     }
 });
 

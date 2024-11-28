@@ -1,36 +1,49 @@
-
-
+// app.js
 const express = require('express');
 const app = express();
-const tasks = require('./routes/tasks')
-const connectionDB = require('./db/connect');
-app.use(express.json())
-app.use(express.static('./public'))
-require('dotenv').config();
-const notFound = require('./middleware/not-found')
+
+// Required configurations
+const config = require('./config/config');
+const sessionConfig = require('./config/sessionConfig');
+
+// Required middlewares
+const cookieParser = require('cookie-parser');
+const firstTimeVisitMiddleware = require('./middleware/firstTimeVisitMiddleware');
+
+// Required routes
+const tasks = require('./routes/tasks');
+const notFound = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/errorHandler');
-const PORT = process.env.SERVER_PORT || 3000;
-const URI = process.env.MONGO_URI;
 
-app.get('/ayaya', (req,res) =>{
-    res.send('aasasasas');
-})
+// Required DB connection
+const connectionDB = require('./db/connect');
 
-app.use('/api/v1/tasks', tasks)
-app.use(notFound)
+// Set up express middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static('./public'));
+
+// Set up session handling
+app.use(sessionConfig());
+
+// Set up first-time visitor check
+app.use(firstTimeVisitMiddleware);
+
+// Define routes
+app.use('/api/v1/tasks', tasks);
+app.use(notFound);
 app.use(errorHandlerMiddleware);
 
-const start = async() =>{
+// Start the server
+const start = async () => {
     try {
-        connectionDB(URI, {
-            dbName: 'TaskManagerProject'
-        })
-        app.listen(PORT, console.log(`fkillem at ${PORT}`));
+        connectionDB(config.URI, { dbName: 'TaskManagerProject' });
+        app.listen(config.PORT, () => console.log(`fkillem at ${config.PORT}`));
     } catch (error) {
         console.log(error);
         process.exit(1);
     }
-}
+};
 
-
-start()
+start();
