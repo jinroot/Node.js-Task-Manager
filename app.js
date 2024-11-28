@@ -25,7 +25,11 @@ app.use(cookieParser());
 app.use(express.static('./public'));
 
 // Set up session handling
-app.use(sessionConfig());
+app.use((req, res, next) => {
+    // Initialize session with the request object
+    app.use(sessionConfig(req));
+    next();
+});
 
 // Set up first-time visitor check
 app.use(firstTimeVisitMiddleware);

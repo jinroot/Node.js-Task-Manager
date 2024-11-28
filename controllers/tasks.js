@@ -3,6 +3,7 @@ const asyncWrapper = require('../middleware/async');
 
 const getAllTasks = asyncWrapper(async (req, res) => {
     //console.log(req.sessionID);
+    console.log(req.protocol);
     const sessionId = req.sessionID;
     const tasks = await Task.find({ sessionId });
     res.status(200).json({ tasks });

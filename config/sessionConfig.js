@@ -2,7 +2,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const config = require('./config');
 
-const sessionConfig = () => {
+const sessionConfig = (req) => {
     return session({
         secret: config.SECRET,
         resave: false,
@@ -14,7 +14,7 @@ const sessionConfig = () => {
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7,
             httpOnly: true,
-            secure: config.NODE_ENV === 'production' || req.protocol === 'https',
+            secure: config.NODE_ENV === 'production' || req.protocol === 'https', //a work around 
             sameSite: 'Strict',
         },
     });
