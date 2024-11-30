@@ -2,7 +2,7 @@
 
 This is a **Task Manager Application** built using Node.js, Express.js, MongoDB, and other modern web development tools. The application allows users to create, read, update, and delete tasks. It also implements session tracking to provide unique user experiences, where users can view their tasks based on a unique session ID stored in cookies.
 
-The application is deployed on [Railway](https://railway.app/) [Site link](https://dailies.up.railway.app/).  
+The application is deployed on [Railway](https://railway.app/) - [Site link](https://dailies.up.railway.app/).  
 
 ---
 
