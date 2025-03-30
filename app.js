@@ -39,6 +39,12 @@ app.use('/api/v1/tasks', tasks);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
+// Route to serve suko.html
+app.get('/suko', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'suko.html'));
+});
+module.exports = app;
+
 // Start the server
 const start = async () => {
     try {
