@@ -1,12 +1,10 @@
 const path = require('path');
-
-// app.js
 const express = require('express');
 const app = express();
 
 // Required configurations
 const config = require('./config/config');
-const sessionConfig = require('./config/sessionConfig');
+const sessionConfig = require('./config/sessionConfig');  // ✅ Now correct
 
 // Required middlewares
 const cookieParser = require('cookie-parser');
@@ -26,32 +24,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('./public'));
 
-// Set up session handling
-app.use((req, res, next) => {
-    // Initialize session with the request object
-    app.use(sessionConfig(req));
-    next();
-});
+// ✅ Use sessionConfig before any route that requires `req.session`
+app.use(sessionConfig);
 
-// Set up first-time visitor check
+// ✅ Now add the first-time visit middleware (which depends on req.session)
 app.use(firstTimeVisitMiddleware);
 
 // Define routes
 app.use('/api/v1/tasks', tasks);
-app.use(notFound);
-app.use(errorHandlerMiddleware);
 
 // Route to serve suko.html
 app.get('/suko', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'suko.html'));
 });
+
+app.use(notFound);
+app.use(errorHandlerMiddleware);
+
+
 module.exports = app;
 
 // Start the server
 const start = async () => {
     try {
         connectionDB(config.URI, { dbName: 'TaskManagerProject' });
-        app.listen(config.PORT, () => console.log(`fkillem at ${config.PORT}`));
+        app.listen(config.PORT, () => console.log(`Server running at ${config.PORT}`));
     } catch (error) {
         console.log(error);
         process.exit(1);
